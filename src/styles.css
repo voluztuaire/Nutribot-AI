@@ -1,0 +1,193 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-amber: var(--amber);
+  --color-surface-2: var(--surface-2);
+  /* Legacy aliases — kept so older components map onto the new palette
+     instead of breaking. leaf/citrus/sun all collapse to brand/amber. */
+  --color-leaf: var(--brand);
+  --color-citrus: var(--brand);
+  --color-sun: var(--amber);
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --radius-lg: 1rem;
+}
+
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("https://fonts.gstatic.com/s/spacegrotesk/v16/V8mDoQDjQSkFtoMM3T6r8E7mF71Q-gOoraIAEj62UXskPMBBSSJLm2E.woff2") format("woff2");
+  font-weight: 400 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("https://fonts.gstatic.com/s/inter/v18/UcCo3FwrK3iLTcvneQg7Ca725JhhKnNqk4j1ebLhAm8SrXTc2dRJaA.woff2") format("woff2");
+  font-weight: 300 700;
+  font-display: swap;
+}
+
+/* ============ LIGHT MODE ============
+   Palette per spec: #eee9DF (main bg), #c9c1B1 (surface-2),
+   #a35139 (brand), #ffb162 (amber accent). Text: near-black/grey. */
+:root {
+  --background: #eee9df;
+  --surface-2: #c9c1b1;
+  --foreground: #1b2632;
+  --muted: #e0d9cc;
+  --muted-foreground: #6b6558;
+  --card: #ffffff;
+  --card-foreground: #1b2632;
+  --border: #c9c1b1;
+  --ring: #a35139;
+
+  --brand: #a35139;
+  --brand-foreground: #ffffff;
+  --amber: #ffb162;
+
+  --primary: #a35139;
+  --primary-foreground: #ffffff;
+  --secondary: #c9c1b1;
+  --secondary-foreground: #1b2632;
+  --accent: #ffb162;
+  --accent-foreground: #1b2632;
+  --radius: 1rem;
+}
+
+/* ============ DARK MODE ============
+   #1b2632 (main bg), #2c3b4d (surface-2),
+   #a35139 (brand), #ffb162 (amber accent). Text: white. */
+.dark {
+  --background: #1b2632;
+  --surface-2: #2c3b4d;
+  --foreground: #ffffff;
+  --muted: #2c3b4d;
+  --muted-foreground: #c9c1b1;
+  --card: #2c3b4d;
+  --card-foreground: #ffffff;
+  --border: #3a4b5f;
+  --ring: #ffb162;
+
+  --brand: #a35139;
+  --brand-foreground: #ffffff;
+  --amber: #ffb162;
+
+  --primary: #a35139;
+  --primary-foreground: #ffffff;
+  --secondary: #2c3b4d;
+  --secondary-foreground: #ffffff;
+  --accent: #ffb162;
+  --accent-foreground: #1b2632;
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html, body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    transition: background-color .25s ease, color .25s ease;
+  }
+  h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
+}
+
+/* ============ Surfaces (no gradients, no moving bg) ============ */
+@utility panel {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+}
+@utility panel-2 {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+}
+
+/* Button helpers — single solid color per button, no gradient */
+@utility btn-brand {
+  background: var(--color-brand);
+  color: var(--color-brand-foreground);
+  border-radius: 0.875rem;
+  font-weight: 600;
+  transition: filter .15s ease, transform .15s ease;
+}
+@utility btn-brand-hover {
+  filter: brightness(1.08);
+}
+@utility btn-amber {
+  background: var(--color-amber);
+  color: #1b2632;
+  border-radius: 0.875rem;
+  font-weight: 600;
+  transition: filter .15s ease, transform .15s ease;
+}
+@utility btn-ghost {
+  background: transparent;
+  color: var(--color-foreground);
+  border-radius: 0.875rem;
+  transition: background-color .15s ease;
+}
+
+/* ============ Animations (NO background motion) ============ */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes typing-dot {
+  0%, 60%, 100% { transform: translateY(0); opacity: .5; }
+  30% { transform: translateY(-5px); opacity: 1; }
+}
+.animate-fade-up { animation: fade-up .35s ease-out both; }
+.typing-dot { animation: typing-dot 1.2s ease-in-out infinite; }
+
+/* ============ Markdown body ============ */
+.md-body { line-height: 1.65; }
+.md-body p { margin: .35rem 0; }
+.md-body ul { list-style: disc; padding-left: 1.25rem; margin: .35rem 0; }
+.md-body ol { list-style: decimal; padding-left: 1.25rem; margin: .35rem 0; }
+.md-body h1, .md-body h2, .md-body h3 { margin-top: .9rem; margin-bottom: .35rem; font-weight: 700; }
+.md-body code {
+  background: var(--color-surface-2);
+  color: var(--color-foreground);
+  padding: 1px 6px; border-radius: 6px; font-size: .9em;
+}
+.md-body strong { color: var(--color-brand); }
+.dark .md-body strong { color: var(--color-amber); }
+.md-body a { color: var(--color-brand); text-decoration: underline; }
+.dark .md-body a { color: var(--color-amber); }
+
+/* ============ Legacy utility aliases ============
+   Older pages reference glass/glass-strong/ring-glow/gradient-text and the
+   leaf/citrus/sun colour family. To keep one consistent design without
+   rewriting every page, these aliases resolve to the new flat palette:
+   solid surfaces, solid (non-gradient) brand text, no glow. */
+@utility glass {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+}
+@utility glass-strong {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+}
+@utility ring-glow { box-shadow: none; }
+@utility gradient-text { color: var(--color-brand); }
