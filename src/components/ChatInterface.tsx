@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { Send, Sparkles, Loader2, Download, Pencil, Check } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { Send, Sparkles, Loader2, Download, Pencil, Check, LogOut, LogIn } from "lucide-react";
 import { sendChat, saveMessage, type ChatHistoryItem } from "@/lib/api";
+import { useAvatar } from "@/lib/avatar";
 import { useAuth } from "@/lib/auth";
 import {
   getSession, upsertSession, renameSession, titleFromMessage,
@@ -22,7 +24,8 @@ interface Props {
 }
 
 export function ChatInterface({ sessionId, onSessionChange }: Props) {
-  const { user, token } = useAuth();
+  const { user, token, logout } = useAuth();
+  const avatar = useAvatar(user?.id);
   const [messages, setMessages] = useState<StoredMsg[]>([]);
   const [title, setTitle] = useState<string>("New chat");
   const [editingTitle, setEditingTitle] = useState(false);
@@ -133,7 +136,7 @@ export function ChatInterface({ sessionId, onSessionChange }: Props) {
   return (
     <div className="flex flex-1 flex-col min-h-0">
       {/* Title bar (always present, even on fresh chat) */}
-      <div className="flex items-center gap-2 px-4 md:px-8 py-3 border-b border-border bg-[var(--color-background)]">
+      <div className="flex items-center gap-2 px-4 md:px-8 py-3 border-b border-white/30 bg-white/40 backdrop-blur-xl">
         <div className="flex-1 min-w-0 flex items-center gap-2">
           {editingTitle ? (
             <input
@@ -160,14 +163,45 @@ export function ChatInterface({ sessionId, onSessionChange }: Props) {
             </button>
           )}
         </div>
-        <button
+          <button
           onClick={exportPdf}
           disabled={!messages.length}
-          className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm btn-brand hover:btn-brand-hover disabled:opacity-40 disabled:cursor-not-allowed"
+          className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm btn-brand hover:btn-brand-hover disabled:opacity-40 disabled:cursor-not-allowed transition-all"
           title="Export conversation summary as PDF"
         >
           <Download className="h-4 w-4" /> Export PDF
         </button>
+        <div className="ml-2 pl-4 border-l border-border flex items-center gap-3">
+          {user ? (
+            <>
+              <Link
+                to="/profile"
+                title="Open profile"
+                className="relative grid h-10 w-10 place-items-center rounded-xl overflow-hidden bg-brand text-white font-bold shrink-0"
+              >
+                {avatar ? (
+                  <img src={avatar} alt={user.username} className="absolute inset-0 h-full w-full object-cover" />
+                ) : (
+                  user.username.slice(0, 1).toUpperCase()
+                )}
+              </Link>
+              <button
+                onClick={logout}
+                className="grid h-10 w-10 place-items-center rounded-xl btn-ghost hover:bg-[var(--color-surface-2)]"
+                title="Log out"
+              >
+                <LogOut className="h-5 w-5" />
+              </button>
+            </>
+          ) : (
+            <Link
+              to="/login"
+              className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm btn-brand hover:btn-brand-hover"
+            >
+              <LogIn className="h-4 w-4" /> Log in
+            </Link>
+          )}
+        </div>
       </div>
 
       {isFresh ? (
@@ -207,7 +241,7 @@ export function ChatInterface({ sessionId, onSessionChange }: Props) {
               {loading && <TypingBubble />}
             </div>
           </div>
-          <div className="border-t border-border px-4 md:px-10 py-4 bg-[var(--color-background)]">
+          <div className="border-t border-white/30 px-4 md:px-10 py-4 bg-white/40 backdrop-blur-xl">
             <div className="mx-auto max-w-3xl">
               <Composer value={input} onChange={setInput} onSubmit={() => submit(input)} loading={loading} />
               {error && <ErrorBanner message={error} />}
@@ -238,7 +272,7 @@ function Composer({
       <button
         type="submit"
         disabled={loading || !value.trim()}
-        className="grid h-11 w-11 place-items-center rounded-xl btn-brand hover:btn-brand-hover disabled:opacity-40 disabled:cursor-not-allowed"
+        className="grid h-11 w-11 place-items-center rounded-xl btn-primary hover:btn-primary-hover disabled:opacity-40 disabled:cursor-not-allowed transition-all"
       >
         {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Send className="h-5 w-5" />}
       </button>

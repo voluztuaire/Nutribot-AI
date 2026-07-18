@@ -2,6 +2,7 @@
 // history list works regardless of backend availability.
 import { useEffect, useState } from "react";
 import type { ChatHistoryItem } from "./api";
+import { auth } from "./auth";
 
 export interface StoredMsg extends ChatHistoryItem {
   id: string;
@@ -16,15 +17,18 @@ export interface ChatSession {
   messages: StoredMsg[];
 }
 
-const KEY = "nutribot_sessions_v1";
+function getKey() {
+  const userId = auth.state.user?.id || "guest";
+  return `nutribot_sessions_v2_${userId}`;
+}
 
 function read(): ChatSession[] {
   if (typeof window === "undefined") return [];
-  try { return JSON.parse(localStorage.getItem(KEY) ?? "[]"); } catch { return []; }
+  try { return JSON.parse(localStorage.getItem(getKey()) ?? "[]"); } catch { return []; }
 }
 function write(list: ChatSession[]) {
   if (typeof window === "undefined") return;
-  localStorage.setItem(KEY, JSON.stringify(list));
+  localStorage.setItem(getKey(), JSON.stringify(list));
   window.dispatchEvent(new Event("nutribot:sessions"));
 }
 

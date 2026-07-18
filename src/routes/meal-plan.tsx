@@ -52,23 +52,23 @@ function MealPlanPage() {
       <main className="flex-1 overflow-y-auto p-6 md:p-10">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center gap-3 mb-2">
-            <div className="grid h-11 w-11 place-items-center rounded-2xl bg-brand text-white">
+            <div className="grid h-11 w-11 place-items-center rounded-2xl btn-brand text-white">
               <Salad className="h-6 w-6" />
             </div>
-            <h1 className="text-4xl font-bold">Meal <span className="gradient-text">plan</span></h1>
+            <h1 className="text-4xl font-bold">Meal <span className="text-brand">plan</span></h1>
           </div>
           <p className="text-muted-foreground mb-8">
             Generate a personalized diet schedule built from your profile.
           </p>
 
           {!token && (
-            <div className="mb-6 glass rounded-3xl p-5 border border-secondary/40">
-              You need to <Link to="/login" className="font-semibold text-leaf underline">log in</Link> to generate a personalized meal plan.
+            <div className="mb-6 panel p-5 border border-primary/40">
+              You need to <Link to="/login" className="font-semibold text-brand underline">log in</Link> to generate a personalized meal plan.
             </div>
           )}
 
           <div className="grid lg:grid-cols-[1fr_1.4fr] gap-6">
-            <div className="glass-strong rounded-3xl p-6 ring-glow h-fit">
+            <div className="panel p-6 h-fit">
               <Field label="Days">
                 <input type="number" min={1} max={14} value={days} onChange={(e) => setDays(Number(e.target.value))} className={cls} />
               </Field>
@@ -92,17 +92,17 @@ function MealPlanPage() {
               <button
                 onClick={generate}
                 disabled={loading || !token}
-                className="mt-2 w-full rounded-2xl px-6 py-3 font-semibold text-white bg-brand disabled:opacity-50 hover:brightness-110 transition-transform inline-flex items-center justify-center gap-2"
+                className="mt-2 w-full rounded-2xl px-6 py-3 font-semibold btn-brand disabled:opacity-50 hover:btn-brand-hover inline-flex items-center justify-center gap-2"
               >
                 {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
                 {loading ? "Cooking up your plan…" : "Generate meal plan"}
               </button>
-              {error && <div className="mt-3 text-sm text-secondary">{error}</div>}
+              {error && <div className="mt-3 text-sm text-primary">{error}</div>}
             </div>
 
-            <div className="glass-strong rounded-3xl p-6 min-h-[400px]">
+            <div className="panel p-6 min-h-[400px]">
               {summary && (
-                <div className="mb-4 rounded-2xl bg-sun/20 border border-sun/40 px-4 py-3">
+                <div className="mb-4 rounded-2xl bg-amber/20 border border-amber/40 px-4 py-3">
                   <div className="text-xs font-bold uppercase tracking-wider mb-1">Quick summary</div>
                   <div className="md-body text-sm">
                     <ReactMarkdown>{summary}</ReactMarkdown>
@@ -116,7 +116,7 @@ function MealPlanPage() {
               ) : !loading ? (
                 <div className="h-full grid place-items-center text-center text-muted-foreground">
                   <div>
-                    <Salad className="h-10 w-10 mx-auto mb-3 text-leaf" />
+                    <Salad className="h-10 w-10 mx-auto mb-3 text-brand" />
                     <p>Your meal plan will appear here.</p>
                   </div>
                 </div>
@@ -133,7 +133,7 @@ function MealPlanPage() {
   );
 }
 
-const cls = "w-full rounded-2xl glass px-4 py-2.5 outline-none focus:ring-2 focus:ring-leaf text-foreground";
+const cls = "w-full rounded-2xl bg-white/10 border border-white/20 backdrop-blur-sm px-4 py-2.5 outline-none focus:ring-2 focus:ring-brand text-foreground";
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block mb-4">

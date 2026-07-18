@@ -25,6 +25,9 @@ let hydrated = false;
 function update(patch: Partial<AuthState>) {
   state = { ...state, ...patch };
   listeners.forEach((l) => l());
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event("nutribot:sessions"));
+  }
 }
 
 export const auth = {

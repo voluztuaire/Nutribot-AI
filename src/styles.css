@@ -48,102 +48,131 @@
    Palette per spec: #eee9DF (main bg), #c9c1B1 (surface-2),
    #a35139 (brand), #ffb162 (amber accent). Text: near-black/grey. */
 :root {
-  --background: #eee9df;
-  --surface-2: #c9c1b1;
-  --foreground: #1b2632;
-  --muted: #e0d9cc;
-  --muted-foreground: #6b6558;
-  --card: #ffffff;
-  --card-foreground: #1b2632;
-  --border: #c9c1b1;
-  --ring: #a35139;
+  --background: #bdbebf;
+  --foreground: #540101;
+  
+  --surface-2: rgba(255, 255, 255, 0.25);
+  --muted: #4a4b1f;
+  --muted-foreground: #540101;
+  
+  --card: rgba(255, 255, 255, 0.35);
+  --card-foreground: #540101;
+  
+  --border: rgba(255, 255, 255, 0.4);
+  --ring: #3d7577;
 
-  --brand: #a35139;
+  --brand: #3d7577;
   --brand-foreground: #ffffff;
-  --amber: #ffb162;
+  --amber: #f69e09;
 
-  --primary: #a35139;
+  --primary: #e32d12;
   --primary-foreground: #ffffff;
-  --secondary: #c9c1b1;
-  --secondary-foreground: #1b2632;
-  --accent: #ffb162;
-  --accent-foreground: #1b2632;
+  --secondary: #4a4b1f;
+  --secondary-foreground: #ffffff;
+  --accent: #f69e09;
+  --accent-foreground: #ffffff;
   --radius: 1rem;
 }
 
-/* ============ DARK MODE ============
-   #1b2632 (main bg), #2c3b4d (surface-2),
-   #a35139 (brand), #ffb162 (amber accent). Text: white. */
 .dark {
-  --background: #1b2632;
-  --surface-2: #2c3b4d;
-  --foreground: #ffffff;
-  --muted: #2c3b4d;
-  --muted-foreground: #c9c1b1;
-  --card: #2c3b4d;
-  --card-foreground: #ffffff;
-  --border: #3a4b5f;
-  --ring: #ffb162;
+  --background: #bdbebf;
+  --surface-2: rgba(255, 255, 255, 0.25);
+  --foreground: #540101;
+  --muted: #4a4b1f;
+  --muted-foreground: #540101;
+  --card: rgba(255, 255, 255, 0.35);
+  --card-foreground: #540101;
+  --border: rgba(255, 255, 255, 0.4);
+  --ring: #3d7577;
 
-  --brand: #a35139;
+  --brand: #3d7577;
   --brand-foreground: #ffffff;
-  --amber: #ffb162;
+  --amber: #f69e09;
 
-  --primary: #a35139;
+  --primary: #e32d12;
   --primary-foreground: #ffffff;
-  --secondary: #2c3b4d;
+  --secondary: #4a4b1f;
   --secondary-foreground: #ffffff;
-  --accent: #ffb162;
-  --accent-foreground: #1b2632;
+  --accent: #f69e09;
+  --accent-foreground: #ffffff;
 }
 
 @layer base {
   * { border-color: var(--color-border); }
   html, body {
-    background: var(--color-background);
+    background-color: var(--color-background);
+    background-image: 
+      radial-gradient(circle at 10% 0%, rgba(61, 117, 119, 0.4) 0%, transparent 50%),
+      radial-gradient(circle at 90% 100%, rgba(227, 45, 18, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 100% 0%, rgba(246, 158, 9, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 0% 100%, rgba(74, 75, 31, 0.3) 0%, transparent 50%);
+    background-attachment: fixed;
     color: var(--color-foreground);
     font-family: var(--font-body);
     min-height: 100vh;
-    transition: background-color .25s ease, color .25s ease;
   }
   h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
 }
 
-/* ============ Surfaces (no gradients, no moving bg) ============ */
+/* ============ Futuristic Glass Surfaces ============ */
 @utility panel {
   background: var(--color-card);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--color-border);
   border-radius: 1rem;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
 }
 @utility panel-2 {
   background: var(--color-surface-2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--color-border);
   border-radius: 1rem;
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.03);
 }
 
-/* Button helpers — single solid color per button, no gradient */
+/* Button helpers — sleek gradients for a futuristic vibe */
 @utility btn-brand {
-  background: var(--color-brand);
+  background: linear-gradient(135deg, #3d7577 0%, #2b5455 100%);
   color: var(--color-brand-foreground);
   border-radius: 0.875rem;
   font-weight: 600;
-  transition: filter .15s ease, transform .15s ease;
+  box-shadow: 0 4px 14px rgba(61, 117, 119, 0.3);
+  transition: all .2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 @utility btn-brand-hover {
-  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(61, 117, 119, 0.4);
+  filter: brightness(1.1);
+}
+@utility btn-primary {
+  background: linear-gradient(135deg, #e32d12 0%, #f69e09 100%);
+  color: #ffffff;
+  border-radius: 0.875rem;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(227, 45, 18, 0.3);
+  transition: all .2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+@utility btn-primary-hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(227, 45, 18, 0.4);
+  filter: brightness(1.1);
 }
 @utility btn-amber {
   background: var(--color-amber);
-  color: #1b2632;
+  color: #540101;
   border-radius: 0.875rem;
   font-weight: 600;
-  transition: filter .15s ease, transform .15s ease;
+  transition: all .2s ease;
 }
 @utility btn-ghost {
   background: transparent;
   color: var(--color-foreground);
   border-radius: 0.875rem;
-  transition: background-color .15s ease;
+  transition: all .2s ease;
 }
 
 /* ============ Animations (NO background motion) ============ */

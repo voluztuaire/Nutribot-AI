@@ -2,7 +2,6 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { login, register } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
-import { Sidebar } from "@/components/Sidebar";
 import { Loader2 } from "lucide-react";
 
 export const Route = createFileRoute("/register")({
@@ -45,9 +44,8 @@ function RegisterPage() {
 
   return (
     <div className="flex h-screen w-screen overflow-hidden">
-      <Sidebar />
       <main className="flex-1 overflow-y-auto grid place-items-center p-6">
-        <form onSubmit={onSubmit} className="glass-strong w-full max-w-xl rounded-3xl p-8 ring-glow">
+        <form onSubmit={onSubmit} className="panel w-full max-w-xl rounded-3xl p-8">
           <h1 className="text-3xl font-bold gradient-text mb-2">Create your account</h1>
           <p className="text-muted-foreground mb-6 text-sm">A few details so NutriBot can personalise your plans.</p>
           <div className="grid grid-cols-2 gap-3">
@@ -79,15 +77,14 @@ function RegisterPage() {
             {loading && <Loader2 className="h-4 w-4 animate-spin" />} Sign up
           </button>
           <div className="mt-4 text-sm text-center text-muted-foreground">
-            Already have an account? <Link to="/login" className="text-leaf font-semibold">Login</Link>
+            Already have an account? <Link to="/login" className="text-brand font-semibold hover:underline">Login</Link>
           </div>
         </form>
       </main>
     </div>
   );
 }
-
-const fieldCls = "w-full rounded-2xl glass px-4 py-2.5 outline-none focus:ring-2 focus:ring-leaf";
+const fieldCls = "w-full rounded-2xl panel px-4 py-2.5 outline-none focus:ring-2 focus:ring-brand";
 function Field({ label, children, full }: { label: string; children: React.ReactNode; full?: boolean }) {
   return (
     <label className={full ? "col-span-2" : ""}>

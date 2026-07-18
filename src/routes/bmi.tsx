@@ -40,7 +40,7 @@ function BmiPage() {
       <Sidebar />
       <main className="flex-1 overflow-y-auto p-6 md:p-10">
         <div className="max-w-3xl mx-auto">
-          <h1 className="text-4xl font-bold mb-2">BMI <span className="gradient-text">calculator</span></h1>
+          <h1 className="text-4xl font-bold mb-2">BMI <span className="text-brand">calculator</span></h1>
           <p className="text-muted-foreground mb-8">
             {user?.height && user?.weight
               ? "Starting from your saved profile — change the numbers to explore. Refresh to reset."
@@ -48,12 +48,12 @@ function BmiPage() {
           </p>
 
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="glass-strong rounded-3xl p-6 ring-glow">
+            <div className="panel p-6">
               <Field label="Height (cm)"><input type="number" value={height} onChange={(e) => setH(e.target.value)} className={cls} /></Field>
               <Field label="Weight (kg)"><input type="number" value={weight} onChange={(e) => setW(e.target.value)} className={cls} /></Field>
             </div>
 
-            <div className="glass-strong rounded-3xl p-6 flex flex-col items-center justify-center">
+            <div className="panel p-6 flex flex-col items-center justify-center">
               {bmi != null && verdict ? (
                 <>
                   <div className="text-6xl font-bold text-brand">
@@ -68,17 +68,17 @@ function BmiPage() {
             </div>
           </div>
 
-          <div className="mt-8 glass rounded-3xl p-6">
+          <div className="mt-8 panel p-6">
             <div className="grid grid-cols-4 gap-3 text-xs text-center">
               {[
-                { l: "Underweight", r: "< 18.5", c: "bg-sun/30" },
-                { l: "Normal",      r: "18.5 – 24.9", c: "bg-leaf/30" },
-                { l: "Overweight",  r: "25 – 29.9", c: "bg-citrus/30" },
-                { l: "Obese",       r: "≥ 30", c: "bg-secondary/40" },
+                { l: "Underweight", r: "< 18.5", c: "bg-amber/30" },
+                { l: "Normal",      r: "18.5 – 24.9", c: "bg-brand/30" },
+                { l: "Overweight",  r: "25 – 29.9", c: "bg-secondary/40" },
+                { l: "Obese",       r: "≥ 30", c: "bg-primary/30" },
               ].map((x) => (
-                <div key={x.l} className={`rounded-2xl p-3 ${x.c}`}>
+                <div key={x.l} className={`rounded-2xl p-3 ${x.c} border border-white/10 text-foreground`}>
                   <div className="font-semibold">{x.l}</div>
-                  <div className="text-foreground/70">{x.r}</div>
+                  <div className="opacity-80">{x.r}</div>
                 </div>
               ))}
             </div>
@@ -89,7 +89,7 @@ function BmiPage() {
   );
 }
 
-const cls = "w-full rounded-2xl glass px-4 py-3 outline-none focus:ring-2 focus:ring-leaf text-lg text-foreground";
+const cls = "w-full rounded-2xl bg-white/10 border border-white/20 backdrop-blur-sm px-4 py-3 outline-none focus:ring-2 focus:ring-brand text-lg text-foreground";
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block mb-4">
